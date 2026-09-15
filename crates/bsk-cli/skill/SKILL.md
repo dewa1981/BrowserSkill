@@ -111,8 +111,8 @@ running in the background while controlled, without requiring `tab select`.
 A default created tab starts at `about:blank`. Ordinary viewport screenshots of
 controlled tabs also work in the background, using the same explicit `--tab-id`.
 Prefer semantic observation first and take a screenshot when the task needs image
-content. Full-page screenshots still require an active tab; do not activate a
-background task just to work around that limitation. A viewport screenshot does
+content. Full-page screenshots also support background controlled tabs; pass
+`--tab-id` without selecting the target. A viewport screenshot does
 not issue a Canvas `capture_id`; use the existing `--ref` flow for screenshot-bound
 Canvas clicks.
 
@@ -190,8 +190,10 @@ The default `--scope follow` follows appended content. Use `--scope current` whe
 capturing the currently loaded range is requested: it stops at the initial document
 height, even if a loading indicator remains. Later content below that boundary is
 excluded; report this range rather than claiming all feed entries were loaded.
-Use a selected, session-controlled tab and stable viewport; `--tab-id` targets a
-tab without selecting it. Internal browser pages, the Web Store, nested scrolling
+Use a session-controlled tab and stable viewport; `--tab-id` targets a tab without
+selecting it or focusing the window. Switching to another tab does not cancel
+capture; navigation, loss of control or a debugger reconnection does.
+Internal browser pages, the Web Store, nested scrolling
 panels and virtualized lists are unsupported. Capture/encoding defaults to 2m;
 `--timeout 5m` extends it only in full-page mode. Allow the shell enough time for
 capture plus transfer. Respect cancellation; do not blindly retry endless pages
